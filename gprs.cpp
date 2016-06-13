@@ -47,13 +47,13 @@ int GPRS::init(void)
 
 #endif
     if(sendCmdAndWaitForResp("AT\r\n","OK\r\n",DEFAULT_TIMEOUT*3)){
-      return -1;
+        return -1;
     }
     if(sendCmdAndWaitForResp("AT+CFUN=1\r\n","OK\r\n",DEFAULT_TIMEOUT*3)){
-      return -1;
+        return -1;
     }
     if(checkSIMStatus()) {
-		  return -1;
+		return -1;
     }
     return 0;
 

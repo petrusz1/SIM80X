@@ -1,7 +1,10 @@
 /*
-Sketch: GPRS HTTP Test
-
-*/
+ * Sketch: GPRS HTTP Test
+ * GET a hello world from mbed site via port 80
+ * 
+ * Becomes a serialdebug port after sucess
+ */
+ 
 #include <gprs.h>
 #include <SoftwareSerial.h>
 
@@ -13,16 +16,20 @@ GPRS gprs;
 void setup() {
   Serial.begin(9600);
   while(!Serial);
-  Serial.println("GPRS - HTTP Connection Test...");  
-  gprs.preInit();
+  Serial.println("\r\nGPRS - HTTP Connection Test...");  
+  //gprs.preInit();
   while(0 != gprs.init()) {
      delay(1000);
      Serial.println("init error");
-  }  
-  while(!gprs.join("cmnet")) {  //change "cmnet" to your own APN
+  }
+  Serial.println("init OK");
+  
+  while(!gprs.join("claro.com.br", "claro", "claro")) {  //change "cmnet" to your own APN
       Serial.println("gprs join network error");
       delay(2000);
   }
+  Serial.println("join OK");
+  
   // successful DHCP
   Serial.print("IP Address is ");
   Serial.println(gprs.getIPAddress());

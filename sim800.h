@@ -37,9 +37,15 @@
 #define TRUE                    1
 #define FALSE                   0
 
-#define SIM800_TX_PIN           8
-#define SIM800_RX_PIN           7
-#define SIM800_POWER_PIN        9
+/*      arduino UNO     */
+//#define SIM800_TX_PIN           2
+//#define SIM800_RX_PIN           3
+
+/*      ESP8266        */
+#define SIM800_TX_PIN           14
+#define SIM800_RX_PIN           12
+
+#define SIM800_POWER_PIN        13
 #define SIM800_POWER_STATUS     12
 
 #define UART_DEBUG
@@ -134,6 +140,9 @@ public:
      */
     void serialDebug(void);
     
+    int enviaAT(void);
+    int esperaResp(const char *resp, unsigned int timeout);
+
     int powerPin;
     SoftwareSerial serialSIM800;
 

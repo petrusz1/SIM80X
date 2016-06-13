@@ -47,7 +47,7 @@ void SIM800::preInit(void)
             delay(3000);  
         }
         while(sendATTest() != 0);                
-        //Serial.println("Init O.K!");         
+        //Serial.println("Init O.K!");   
     }
     else
     {
@@ -74,6 +74,9 @@ int SIM800::readBuffer(char *buffer,int count, unsigned int timeOut)
         }
         if(i > count-1)break;
         timerEnd = millis();
+#ifdef ESP8266
+        ESP.wdtFeed();
+#endif        
         if(timerEnd - timerStart > 1000 * timeOut) {
             break;
         }
@@ -105,6 +108,7 @@ int SIM800::sendATTest(void)
 
 int SIM800::waitForResp(const char *resp, unsigned int timeout)
 {
+    //Serial.println("entrei no waitForResp");
     int len = strlen(resp);
     int sum=0;
     unsigned long timerStart,timerEnd;
@@ -117,7 +121,13 @@ int SIM800::waitForResp(const char *resp, unsigned int timeout)
             if(sum == len)break;
         }
         timerEnd = millis();
+
+#ifdef ESP8266
+        ESP.wdtFeed();
+#endif
+
         if(timerEnd - timerStart > 1000 * timeout) {
+            //Serial.println("timeout estourou");
             return -1;
         }
     }
